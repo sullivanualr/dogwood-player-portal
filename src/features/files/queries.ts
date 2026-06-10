@@ -10,6 +10,8 @@ import {
   type StudentFeatureUnavailableData
 } from "@/features/students/page-access";
 
+export { UUID_PATTERN } from "@/features/students/page-access";
+
 export type FileAsset = Database["public"]["Tables"]["file_assets"]["Row"];
 export type VideoAsset = Database["public"]["Tables"]["video_assets"]["Row"];
 

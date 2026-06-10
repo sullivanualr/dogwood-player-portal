@@ -10,6 +10,8 @@ import {
   type StudentFeatureUnavailableData
 } from "@/features/students/page-access";
 
+export { UUID_PATTERN } from "@/features/students/page-access";
+
 export type Assessment = Database["public"]["Tables"]["assessments"]["Row"];
 
 export type AssessmentsPageData = {
