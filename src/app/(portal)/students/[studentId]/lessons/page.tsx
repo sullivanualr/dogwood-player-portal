@@ -5,6 +5,8 @@ import {
   getLessonNotesPageData,
   type LessonNote
 } from "@/features/lessons/queries";
+import { isStudentFeatureUnavailable } from "@/features/students/page-access";
+import { StudentFeatureUnavailableState } from "@/features/students/unavailable-state";
 
 type LessonNotesPageProps = {
   params: Promise<{
@@ -116,8 +118,13 @@ export default async function LessonNotesPage({
   params
 }: LessonNotesPageProps) {
   const { studentId } = await params;
-  const { student, lessonNotes, canManage } =
-    await getLessonNotesPageData(studentId);
+  const pageData = await getLessonNotesPageData(studentId);
+
+  if (isStudentFeatureUnavailable(pageData)) {
+    return <StudentFeatureUnavailableState status={pageData.status} />;
+  }
+
+  const { student, lessonNotes, canManage } = pageData;
   const fullName = `${student.firstName} ${student.lastName}`;
 
   return (

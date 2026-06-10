@@ -6,6 +6,8 @@ import {
   getPracticePlansPageData,
   type PracticePlanWithItems
 } from "@/features/practice-plans/queries";
+import { isStudentFeatureUnavailable } from "@/features/students/page-access";
+import { StudentFeatureUnavailableState } from "@/features/students/unavailable-state";
 
 type PracticePlansPageProps = {
   params: Promise<{
@@ -181,8 +183,13 @@ export default async function PracticePlansPage({
   params
 }: PracticePlansPageProps) {
   const { studentId } = await params;
-  const { student, plans, canManage } =
-    await getPracticePlansPageData(studentId);
+  const pageData = await getPracticePlansPageData(studentId);
+
+  if (isStudentFeatureUnavailable(pageData)) {
+    return <StudentFeatureUnavailableState status={pageData.status} />;
+  }
+
+  const { student, plans, canManage } = pageData;
   const fullName = `${student.firstName} ${student.lastName}`;
 
   return (

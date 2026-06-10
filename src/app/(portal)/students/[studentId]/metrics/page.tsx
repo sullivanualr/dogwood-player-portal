@@ -9,6 +9,8 @@ import {
   getProgressMetricsPageData,
   type ProgressMetric
 } from "@/features/metrics/queries";
+import { isStudentFeatureUnavailable } from "@/features/students/page-access";
+import { StudentFeatureUnavailableState } from "@/features/students/unavailable-state";
 
 type ProgressMetricsPageProps = {
   params: Promise<{
@@ -131,8 +133,13 @@ export default async function ProgressMetricsPage({
   params
 }: ProgressMetricsPageProps) {
   const { studentId } = await params;
-  const { student, metrics, canManageAll, canManageFitness } =
-    await getProgressMetricsPageData(studentId);
+  const pageData = await getProgressMetricsPageData(studentId);
+
+  if (isStudentFeatureUnavailable(pageData)) {
+    return <StudentFeatureUnavailableState status={pageData.status} />;
+  }
+
+  const { student, metrics, canManageAll, canManageFitness } = pageData;
   const canManage = canManageAll || canManageFitness;
   const fullName = `${student.firstName} ${student.lastName}`;
 

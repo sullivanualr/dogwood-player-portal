@@ -5,6 +5,8 @@ import {
   getTournamentResultsPageData,
   type TournamentResult
 } from "@/features/tournaments/queries";
+import { isStudentFeatureUnavailable } from "@/features/students/page-access";
+import { StudentFeatureUnavailableState } from "@/features/students/unavailable-state";
 
 type TournamentResultsPageProps = {
   params: Promise<{
@@ -144,8 +146,13 @@ export default async function TournamentResultsPage({
   params
 }: TournamentResultsPageProps) {
   const { studentId } = await params;
-  const { student, tournaments, canManage } =
-    await getTournamentResultsPageData(studentId);
+  const pageData = await getTournamentResultsPageData(studentId);
+
+  if (isStudentFeatureUnavailable(pageData)) {
+    return <StudentFeatureUnavailableState status={pageData.status} />;
+  }
+
+  const { student, tournaments, canManage } = pageData;
   const fullName = `${student.firstName} ${student.lastName}`;
 
   return (
