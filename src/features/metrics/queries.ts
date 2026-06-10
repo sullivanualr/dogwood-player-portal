@@ -1,16 +1,14 @@
 import { cache } from "react";
-import { notFound } from "next/navigation";
 import {
   canManageFitnessProgressMetrics,
-  canManageProgressMetrics,
-  canViewStudent
+  canManageProgressMetrics
 } from "@/lib/auth/permissions";
 import type { Database } from "@/lib/db/types";
-import { createClient } from "@/lib/supabase/server";
 import { FITNESS_METRIC_CATEGORIES } from "@/features/metrics/constants";
-
-export const UUID_PATTERN =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+import {
+  getStudentPageAccess,
+  type StudentFeatureUnavailableData
+} from "@/features/students/page-access";
 
 export type ProgressMetric =
   Database["public"]["Tables"]["progress_metrics"]["Row"];
@@ -29,28 +27,14 @@ export type ProgressMetricsPageData = {
 
 export const getProgressMetricsPageData = cache(async (
   studentId: string
-): Promise<ProgressMetricsPageData> => {
-  if (!UUID_PATTERN.test(studentId)) {
-    notFound();
+): Promise<ProgressMetricsPageData | StudentFeatureUnavailableData> => {
+  const access = await getStudentPageAccess(studentId);
+
+  if (access.status !== "ok") {
+    return { status: access.status };
   }
 
-  const supabase = await createClient();
-  const canView = await canViewStudent(supabase, studentId);
-
-  if (!canView) {
-    notFound();
-  }
-
-  const { data: profile, error: profileError } = await supabase
-    .from("profiles")
-    .select("id, first_name, last_name, email")
-    .eq("id", studentId)
-    .maybeSingle();
-
-  if (profileError || !profile) {
-    notFound();
-  }
-
+  const { student, supabase } = access;
   const canManageAll = await canManageProgressMetrics(supabase, studentId);
   const canManageFitness = canManageAll
     ? false
@@ -79,10 +63,10 @@ export const getProgressMetricsPageData = cache(async (
 
   return {
     student: {
-      id: profile.id,
-      firstName: profile.first_name,
-      lastName: profile.last_name,
-      email: profile.email
+      id: student.id,
+      firstName: student.firstName,
+      lastName: student.lastName,
+      email: student.email
     },
     metrics: metrics ?? [],
     canManageAll,

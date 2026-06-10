@@ -15,6 +15,8 @@ import {
   type FileAsset,
   type VideoAsset
 } from "@/features/files/queries";
+import { isStudentFeatureUnavailable } from "@/features/students/page-access";
+import { StudentFeatureUnavailableState } from "@/features/students/unavailable-state";
 
 type AssetsPageProps = {
   params: Promise<{
@@ -214,8 +216,13 @@ function VideoCard({
 
 export default async function AssetsPage({ params }: AssetsPageProps) {
   const { studentId } = await params;
-  const { student, files, videos, canManageAll, canManageFitness } =
-    await getAssetsPageData(studentId);
+  const pageData = await getAssetsPageData(studentId);
+
+  if (isStudentFeatureUnavailable(pageData)) {
+    return <StudentFeatureUnavailableState status={pageData.status} />;
+  }
+
+  const { student, files, videos, canManageAll, canManageFitness } = pageData;
   const canManage = canManageAll || canManageFitness;
   const fullName = `${student.firstName} ${student.lastName}`;
 

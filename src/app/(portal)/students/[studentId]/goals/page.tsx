@@ -1,7 +1,12 @@
 import Link from "next/link";
 import { archiveGoal } from "@/features/goals/actions";
 import { GoalForm } from "@/features/goals/goal-form";
-import { getGoalsPageData, type StudentGoal } from "@/features/goals/queries";
+import {
+  getGoalsPageData,
+  type StudentGoal
+} from "@/features/goals/queries";
+import { isStudentFeatureUnavailable } from "@/features/students/page-access";
+import { StudentFeatureUnavailableState } from "@/features/students/unavailable-state";
 
 type GoalsPageProps = {
   params: Promise<{
@@ -103,7 +108,13 @@ function GoalCard({
 
 export default async function GoalsPage({ params }: GoalsPageProps) {
   const { studentId } = await params;
-  const { student, goals, canManage } = await getGoalsPageData(studentId);
+  const pageData = await getGoalsPageData(studentId);
+
+  if (isStudentFeatureUnavailable(pageData)) {
+    return <StudentFeatureUnavailableState status={pageData.status} />;
+  }
+
+  const { student, goals, canManage } = pageData;
   const fullName = `${student.firstName} ${student.lastName}`;
 
   return (

@@ -13,6 +13,8 @@ import {
   type FitnessPlan,
   type WorkoutAssignment
 } from "@/features/fitness/queries";
+import { isStudentFeatureUnavailable } from "@/features/students/page-access";
+import { StudentFeatureUnavailableState } from "@/features/students/unavailable-state";
 
 type FitnessPageProps = {
   params: Promise<{
@@ -244,13 +246,19 @@ function WorkoutAssignmentCard({
 
 export default async function FitnessPage({ params }: FitnessPageProps) {
   const { studentId } = await params;
+  const pageData = await getFitnessPageData(studentId);
+
+  if (isStudentFeatureUnavailable(pageData)) {
+    return <StudentFeatureUnavailableState status={pageData.status} />;
+  }
+
   const {
     student,
     fitnessPlans,
     workoutAssignments,
     canManage,
     canUpdateOwnCompletion
-  } = await getFitnessPageData(studentId);
+  } = pageData;
   const fullName = `${student.firstName} ${student.lastName}`;
 
   return (

@@ -9,6 +9,8 @@ import {
   getAssessmentsPageData,
   type Assessment
 } from "@/features/assessments/queries";
+import { isStudentFeatureUnavailable } from "@/features/students/page-access";
+import { StudentFeatureUnavailableState } from "@/features/students/unavailable-state";
 
 type AssessmentsPageProps = {
   params: Promise<{
@@ -144,8 +146,13 @@ export default async function AssessmentsPage({
   params
 }: AssessmentsPageProps) {
   const { studentId } = await params;
-  const { student, assessments, canManageAll, canManageFitness } =
-    await getAssessmentsPageData(studentId);
+  const pageData = await getAssessmentsPageData(studentId);
+
+  if (isStudentFeatureUnavailable(pageData)) {
+    return <StudentFeatureUnavailableState status={pageData.status} />;
+  }
+
+  const { student, assessments, canManageAll, canManageFitness } = pageData;
   const canManage = canManageAll || canManageFitness;
   const fullName = `${student.firstName} ${student.lastName}`;
 
