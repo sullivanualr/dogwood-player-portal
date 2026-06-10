@@ -16,6 +16,14 @@ export type AdminAssignmentRow = {
   label: string;
   status: string;
 };
+export type AdminStudentRow = {
+  id: string;
+  name: string;
+  email: string;
+  juniorPlayer: boolean;
+  assignedCoach: string | null;
+  currentProgram: string | null;
+};
 
 function getFullName(
   profile: Pick<AdminProfile, "first_name" | "last_name" | "email">
@@ -105,6 +113,162 @@ export const getAdminProgramsData = cache(async () => {
   return {
     programs: programs ?? []
   };
+});
+
+export const getAdminStudentsData = cache(async () => {
+  await requireRole("admin");
+
+  const supabase = await createClient();
+  const today = new Date().toISOString().slice(0, 10);
+
+  const { data: studentProfiles, error: studentProfilesError } = await supabase
+    .from("student_profiles")
+    .select("user_id, junior_player")
+    .eq("status", "active");
+
+  if (studentProfilesError) {
+    throw studentProfilesError;
+  }
+
+  const studentIds = Array.from(
+    new Set((studentProfiles ?? []).map((profile) => profile.user_id))
+  );
+
+  if (!studentIds.length) {
+    return {
+      students: []
+    };
+  }
+
+  const { data: profiles, error: profilesError } = await supabase
+    .from("profiles")
+    .select("id, first_name, last_name, email")
+    .in("id", studentIds)
+    .eq("status", "active")
+    .order("last_name", { ascending: true })
+    .order("first_name", { ascending: true });
+
+  if (profilesError) {
+    throw profilesError;
+  }
+
+  const { data: coachAssignments, error: coachAssignmentsError } =
+    await supabase
+      .from("coach_student_assignments")
+      .select(
+        "student_user_id, coach_user_id, is_primary, start_date, created_at"
+      )
+      .in("student_user_id", studentIds)
+      .eq("status", "active")
+      .lte("start_date", today)
+      .or(`end_date.is.null,end_date.gte.${today}`)
+      .order("is_primary", { ascending: false })
+      .order("start_date", { ascending: false })
+      .order("created_at", { ascending: false });
+
+  if (coachAssignmentsError) {
+    throw coachAssignmentsError;
+  }
+
+  const coachIds = Array.from(
+    new Set(
+      (coachAssignments ?? []).map((assignment) => assignment.coach_user_id)
+    )
+  );
+  let coachesById = new Map<
+    string,
+    Pick<AdminProfile, "first_name" | "last_name" | "email">
+  >();
+
+  if (coachIds.length) {
+    const { data: coaches, error: coachesError } = await supabase
+      .from("profiles")
+      .select("id, first_name, last_name, email")
+      .in("id", coachIds);
+
+    if (coachesError) {
+      throw coachesError;
+    }
+
+    coachesById = new Map((coaches ?? []).map((coach) => [coach.id, coach]));
+  }
+
+  const { data: enrollments, error: enrollmentsError } = await supabase
+    .from("student_program_enrollments")
+    .select("student_user_id, program_id, start_date, created_at")
+    .in("student_user_id", studentIds)
+    .eq("status", "active")
+    .lte("start_date", today)
+    .or(`end_date.is.null,end_date.gte.${today}`)
+    .order("start_date", { ascending: false })
+    .order("created_at", { ascending: false });
+
+  if (enrollmentsError) {
+    throw enrollmentsError;
+  }
+
+  const programIds = Array.from(
+    new Set((enrollments ?? []).map((enrollment) => enrollment.program_id))
+  );
+  let programsById = new Map<string, AdminProgram>();
+
+  if (programIds.length) {
+    const { data: programs, error: programsError } = await supabase
+      .from("programs")
+      .select("*")
+      .in("id", programIds);
+
+    if (programsError) {
+      throw programsError;
+    }
+
+    programsById = new Map(
+      (programs ?? []).map((program) => [program.id, program])
+    );
+  }
+
+  const studentProfileByUserId = new Map(
+    (studentProfiles ?? []).map((profile) => [profile.user_id, profile])
+  );
+  const coachByStudentId = new Map<string, string>();
+
+  for (const assignment of coachAssignments ?? []) {
+    if (coachByStudentId.has(assignment.student_user_id)) {
+      continue;
+    }
+
+    const coach = coachesById.get(assignment.coach_user_id);
+    coachByStudentId.set(
+      assignment.student_user_id,
+      coach ? `${coach.first_name} ${coach.last_name}` : "Assigned coach"
+    );
+  }
+
+  const programByStudentId = new Map<string, string>();
+
+  for (const enrollment of enrollments ?? []) {
+    if (programByStudentId.has(enrollment.student_user_id)) {
+      continue;
+    }
+
+    const program = programsById.get(enrollment.program_id);
+    programByStudentId.set(
+      enrollment.student_user_id,
+      program?.name ?? "Assigned program"
+    );
+  }
+
+  return {
+    students: (profiles ?? []).map((profile) => ({
+      id: profile.id,
+      name: `${profile.first_name} ${profile.last_name}`,
+      email: profile.email,
+      juniorPlayer:
+        studentProfileByUserId.get(profile.id)?.junior_player ?? false,
+      assignedCoach: coachByStudentId.get(profile.id) ?? null,
+      currentProgram: programByStudentId.get(profile.id) ?? null
+    }))
+  } satisfies { students: AdminStudentRow[] };
 });
 
 export const getAdminAssignmentsData = cache(async () => {

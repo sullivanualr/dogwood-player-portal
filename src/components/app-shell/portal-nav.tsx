@@ -12,7 +12,8 @@ const NAV_ITEMS: Array<{
   roles: AppRole[];
 }> = [
   { href: "/admin", label: "Admin", roles: ["admin"] },
-  { href: "/coach", label: "Coach", roles: ["coach"] },
+  { href: "/admin/students", label: "Students", roles: ["admin"] },
+  { href: "/coach", label: "Students", roles: ["coach"] },
   { href: "/student", label: "Student", roles: ["student"] },
   { href: "/parent", label: "Parent", roles: ["parent"] },
   { href: "/fitness", label: "Fitness/PT", roles: ["fitness_pt"] }

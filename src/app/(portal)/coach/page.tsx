@@ -7,7 +7,6 @@ import {
 } from "@/features/coach/dashboard";
 
 const QUICK_ACTIONS = [
-  { label: "Snapshot", path: "snapshot" },
   { label: "Priorities", path: "priorities" },
   { label: "Goals", path: "goals" },
   { label: "Practice Plans", path: "practice-plans" },
@@ -61,6 +60,12 @@ function StudentSummary({ student }: { student: CoachDashboardStudent }) {
               <EmptyValue />
             )}
           </p>
+          <Link
+            className="mt-4 inline-flex rounded-md bg-dogwood-green px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-dogwood-ink"
+            href={`/students/${student.id}/snapshot`}
+          >
+            Open Player Profile
+          </Link>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">

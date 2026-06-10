@@ -7,8 +7,13 @@ export default async function AdminDashboardPage() {
 
   return (
     <DashboardShell eyebrow="Admin" title="Admin Dashboard">
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {[
+          {
+            href: "/admin/students",
+            title: "Students",
+            description: "Open player profiles and student workflow pages."
+          },
           {
             href: "/admin/users",
             title: "Users",
