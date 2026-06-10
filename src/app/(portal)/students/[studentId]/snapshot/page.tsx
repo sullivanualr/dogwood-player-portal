@@ -15,15 +15,15 @@ type StudentSnapshotPageProps = {
 };
 
 const STUDENT_NAV_ITEMS = [
-  { label: "Snapshot", path: "snapshot" },
-  { label: "Practice Plan", path: "practice-plans" },
-  { label: "Goals", path: "goals" },
-  { label: "Lessons", path: "lessons" },
-  { label: "Assessments", path: "assessments" },
-  { label: "Metrics", path: "metrics" },
-  { label: "Tournaments", path: "tournaments" },
-  { label: "Files", path: "files" },
-  { label: "Fitness", path: "fitness" }
+  { label: "Snapshot", segment: "snapshot" },
+  { label: "Practice Plan", segment: "practice-plans" },
+  { label: "Goals", segment: "goals" },
+  { label: "Lessons", segment: "lessons" },
+  { label: "Assessments", segment: "assessments" },
+  { label: "Metrics", segment: "metrics" },
+  { label: "Tournaments", segment: "tournaments" },
+  { label: "Files", segment: "files" },
+  { label: "Fitness", segment: "fitness" }
 ];
 
 const ASSESSMENT_TYPE_LABELS = new Map(
@@ -94,8 +94,8 @@ function StudentNav({ studentId }: { studentId: string }) {
       {STUDENT_NAV_ITEMS.map((item) => (
         <Link
           className="shrink-0 rounded-md px-3 py-2 text-sm font-medium text-dogwood-ink/72 hover:bg-dogwood-cream hover:text-dogwood-green"
-          href={`/students/${studentId}/${item.path}`}
-          key={item.path}
+          href={`/students/${studentId}/${item.segment}`}
+          key={item.segment}
         >
           {item.label}
         </Link>
@@ -128,6 +128,14 @@ export default async function StudentSnapshotPage({
                 Your current plan, goals, coach notes, progress, and workouts in
                 one read-only view.
               </p>
+              {snapshot.canManageLessonNotes ? (
+                <Link
+                  className="mt-4 inline-flex rounded-md bg-white px-4 py-2 text-sm font-semibold text-dogwood-green shadow-sm hover:bg-dogwood-cream"
+                  href={`/students/${snapshot.student.id}/lessons`}
+                >
+                  Add Lesson Note
+                </Link>
+              ) : null}
             </div>
             <div className="grid gap-3 text-sm text-white/75 sm:grid-cols-2 lg:min-w-96">
               <div className="rounded-md border border-white/10 bg-white/10 px-4 py-3">

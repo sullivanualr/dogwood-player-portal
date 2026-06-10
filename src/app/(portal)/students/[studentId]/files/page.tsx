@@ -22,6 +22,8 @@ type AssetsPageProps = {
   }>;
 };
 
+export const dynamic = "force-dynamic";
+
 function formatBytes(bytes: number) {
   if (bytes < 1024) {
     return `${bytes} B`;

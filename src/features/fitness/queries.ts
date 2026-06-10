@@ -53,16 +53,6 @@ export const getFitnessPageData = cache(async (
     notFound();
   }
 
-  const { data: studentProfile, error: studentProfileError } = await supabase
-    .from("student_profiles")
-    .select("id")
-    .eq("user_id", studentId)
-    .maybeSingle();
-
-  if (studentProfileError || !studentProfile) {
-    notFound();
-  }
-
   const {
     data: { user }
   } = await supabase.auth.getUser();

@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { notFound } from "next/navigation";
-import { canViewStudent } from "@/lib/auth/permissions";
+import { canManageLessonNotes, canViewStudent } from "@/lib/auth/permissions";
 import type { Assessment } from "@/features/assessments/queries";
 import type { VideoAsset } from "@/features/files/queries";
 import type { WorkoutAssignment } from "@/features/fitness/queries";
@@ -48,6 +48,7 @@ export type StudentSnapshotData = {
   lessonNote: LessonNote | null;
   latestVideo: VideoAsset | null;
   workoutAssignments: WorkoutAssignment[];
+  canManageLessonNotes: boolean;
 };
 
 export const getStudentSnapshot = cache(async (studentId: string) => {
@@ -286,6 +287,11 @@ export const getStudentSnapshot = cache(async (studentId: string) => {
     throw workoutAssignmentsError;
   }
 
+  const canManageLessonNotesForStudent = await canManageLessonNotes(
+    supabase,
+    studentId
+  );
+
   return {
     student: {
       id: profile.id,
@@ -327,6 +333,7 @@ export const getStudentSnapshot = cache(async (studentId: string) => {
     recentTournamentResults: recentTournamentResults ?? [],
     lessonNote: lessonNote ?? null,
     latestVideo: latestVideo ?? null,
-    workoutAssignments: workoutAssignments ?? []
+    workoutAssignments: workoutAssignments ?? [],
+    canManageLessonNotes: canManageLessonNotesForStudent
   } satisfies StudentSnapshotData;
 });

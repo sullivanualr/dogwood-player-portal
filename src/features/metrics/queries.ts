@@ -51,16 +51,6 @@ export const getProgressMetricsPageData = cache(async (
     notFound();
   }
 
-  const { data: studentProfile, error: studentProfileError } = await supabase
-    .from("student_profiles")
-    .select("id")
-    .eq("user_id", studentId)
-    .maybeSingle();
-
-  if (studentProfileError || !studentProfile) {
-    notFound();
-  }
-
   const canManageAll = await canManageProgressMetrics(supabase, studentId);
   const canManageFitness = canManageAll
     ? false

@@ -16,6 +16,8 @@ type ProgressMetricsPageProps = {
   }>;
 };
 
+export const dynamic = "force-dynamic";
+
 const CATEGORY_LABELS = new Map(
   METRIC_CATEGORY_OPTIONS.map((option) => [option.value, option.label])
 );

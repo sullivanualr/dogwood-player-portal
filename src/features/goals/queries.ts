@@ -48,16 +48,6 @@ export const getGoalsPageData = cache(async (
     notFound();
   }
 
-  const { data: studentProfile, error: studentProfileError } = await supabase
-    .from("student_profiles")
-    .select("id")
-    .eq("user_id", studentId)
-    .maybeSingle();
-
-  if (studentProfileError || !studentProfile) {
-    notFound();
-  }
-
   const canManage = await canManageGoals(supabase, studentId);
   const canViewAll = canManage
     ? true

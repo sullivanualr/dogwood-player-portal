@@ -13,6 +13,8 @@ type PracticePlansPageProps = {
   }>;
 };
 
+export const dynamic = "force-dynamic";
+
 function formatDate(date: string | null) {
   if (!date) {
     return "Not set";

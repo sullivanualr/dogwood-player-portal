@@ -9,6 +9,8 @@ type GoalsPageProps = {
   }>;
 };
 
+export const dynamic = "force-dynamic";
+
 function formatDate(date: string | null) {
   if (!date) {
     return "No target date";

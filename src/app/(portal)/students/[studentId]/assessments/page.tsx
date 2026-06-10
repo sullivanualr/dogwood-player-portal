@@ -16,6 +16,8 @@ type AssessmentsPageProps = {
   }>;
 };
 
+export const dynamic = "force-dynamic";
+
 const ASSESSMENT_TYPE_LABELS = new Map(
   ASSESSMENT_TYPE_OPTIONS.map((option) => [option.value, option.label])
 );
