@@ -10,6 +10,8 @@ import {
   type StudentFeatureUnavailableData
 } from "@/features/students/page-access";
 
+export { UUID_PATTERN } from "@/features/students/page-access";
+
 export type ProgressMetric =
   Database["public"]["Tables"]["progress_metrics"]["Row"];
 
