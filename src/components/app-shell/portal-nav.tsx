@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { signOut } from "@/app/(auth)/actions";
 import {
   getDefaultPathForRoles,
@@ -32,11 +33,18 @@ export function PortalNav({ roles }: { roles: AppRole[] }) {
           className="flex items-center gap-3 font-semibold text-dogwood-ink lg:text-white"
           href={homeHref}
         >
-          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-md border border-dogwood-green/20 bg-dogwood-cream text-xs font-bold tracking-wide text-dogwood-green shadow-sm lg:border-white/15">
-            DG
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-md border border-dogwood-green/20 bg-dogwood-green p-1.5 shadow-sm lg:border-white/15">
+            <Image
+              alt="Dogwood Golf & Social logo"
+              className="h-full w-full object-contain"
+              height={48}
+              priority
+              src="/brand/Logos/Dog-Cream.png"
+              width={48}
+            />
           </span>
           <span className="leading-tight">
-            <span className="block text-base">Dogwood</span>
+            <span className="block font-display text-lg">Dogwood</span>
             <span className="block text-xs font-medium uppercase tracking-wide text-dogwood-ink/60 lg:text-white/60">
               Player Portal
             </span>

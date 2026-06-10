@@ -1,5 +1,6 @@
 import { signIn } from "@/app/(auth)/actions";
 import { getCurrentUser, getCurrentUserDefaultPath } from "@/lib/auth/server";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 
 type LoginPageProps = {
@@ -19,13 +20,20 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
     <main className="grid min-h-screen bg-dogwood-linen p-4 lg:grid-cols-[1fr_28rem] lg:p-6">
       <section className="hidden rounded-lg bg-dogwood-green p-8 text-white shadow-sm lg:flex lg:flex-col lg:justify-between">
         <div>
-          <div className="grid h-16 w-16 place-items-center rounded-md border border-white/15 bg-dogwood-cream text-sm font-bold tracking-wide text-dogwood-green">
-            DG
+          <div className="grid h-20 w-20 place-items-center rounded-md border border-white/15 bg-white/5 p-2">
+            <Image
+              alt="Dogwood Golf & Social logo"
+              className="h-full w-full object-contain"
+              height={80}
+              priority
+              src="/brand/Logos/Dog-Cream.png"
+              width={80}
+            />
           </div>
           <p className="mt-8 text-sm font-semibold uppercase tracking-wide text-white/65">
             Dogwood Golf & Social
           </p>
-          <h1 className="mt-3 max-w-xl text-5xl font-semibold leading-tight">
+          <h1 className="mt-3 max-w-xl font-display text-5xl font-semibold leading-tight">
             Private player development, organized.
           </h1>
         </div>
@@ -38,11 +46,18 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       <section className="flex items-center justify-center px-2 py-8 lg:px-8">
         <div className="w-full max-w-md rounded-lg border border-dogwood-green/15 bg-white/95 p-6 shadow-sm sm:p-8">
           <div className="mb-8 flex items-center gap-3">
-            <div className="grid h-12 w-12 place-items-center rounded-md border border-dogwood-green/15 bg-dogwood-cream text-xs font-bold tracking-wide text-dogwood-green">
-              DG
+            <div className="grid h-14 w-14 place-items-center rounded-md border border-dogwood-green/15 bg-dogwood-green p-1.5">
+              <Image
+                alt="Dogwood Golf & Social logo"
+                className="h-full w-full object-contain"
+                height={56}
+                priority
+                src="/brand/Logos/Dog-Cream.png"
+                width={56}
+              />
             </div>
             <div>
-              <p className="text-sm font-semibold text-dogwood-ink">
+              <p className="font-display text-base font-semibold text-dogwood-ink">
                 Dogwood Player Portal
               </p>
               <p className="text-xs uppercase tracking-wide text-dogwood-ink/55">
@@ -50,7 +65,9 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
               </p>
             </div>
           </div>
-          <h2 className="text-3xl font-semibold text-dogwood-ink">Sign in</h2>
+          <h2 className="font-display text-3xl font-semibold text-dogwood-ink">
+            Sign in
+          </h2>
           <form action={signIn} className="mt-8 space-y-4">
             <label className="block">
               <span className="text-sm font-medium text-dogwood-ink">Email</span>

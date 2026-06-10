@@ -1,6 +1,19 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import type { ReactNode } from "react";
 import "./globals.css";
+
+const moderat = localFont({
+  src: "../../public/brand/Fonts/moderat-bold.ttf",
+  variable: "--font-dogwood-sans",
+  display: "swap"
+});
+
+const tiller = localFont({
+  src: "../../public/brand/Fonts/Tiller-Heavy.otf",
+  variable: "--font-dogwood-display",
+  display: "swap"
+});
 
 export const metadata: Metadata = {
   title: "Dogwood Player Portal",
@@ -13,8 +26,8 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html className={`${moderat.variable} ${tiller.variable}`} lang="en">
+      <body className="font-sans">{children}</body>
     </html>
   );
 }

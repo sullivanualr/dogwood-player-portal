@@ -1,5 +1,6 @@
 import { requestPasswordReset, updatePassword } from "@/app/(auth)/actions";
 import { getCurrentUser } from "@/lib/auth/server";
+import Image from "next/image";
 
 type ResetPasswordPageProps = {
   searchParams?: Promise<{
@@ -17,11 +18,18 @@ export default async function ResetPasswordPage({
     <main className="flex min-h-screen items-center justify-center bg-dogwood-linen p-6">
       <section className="w-full max-w-md rounded-lg border border-dogwood-green/15 bg-white/95 p-6 shadow-sm sm:p-8">
         <div className="mb-8 flex items-center gap-3">
-          <div className="grid h-12 w-12 place-items-center rounded-md border border-dogwood-green/15 bg-dogwood-cream text-xs font-bold tracking-wide text-dogwood-green">
-            DG
+          <div className="grid h-14 w-14 place-items-center rounded-md border border-dogwood-green/15 bg-dogwood-green p-1.5">
+            <Image
+              alt="Dogwood Golf & Social logo"
+              className="h-full w-full object-contain"
+              height={56}
+              priority
+              src="/brand/Logos/Dog-Cream.png"
+              width={56}
+            />
           </div>
           <div>
-            <p className="text-sm font-semibold text-dogwood-ink">
+            <p className="font-display text-base font-semibold text-dogwood-ink">
               Dogwood Player Portal
             </p>
             <p className="text-xs uppercase tracking-wide text-dogwood-ink/55">
@@ -29,7 +37,9 @@ export default async function ResetPasswordPage({
             </p>
           </div>
         </div>
-        <h1 className="text-3xl font-semibold text-dogwood-ink">Reset password</h1>
+        <h1 className="font-display text-3xl font-semibold text-dogwood-ink">
+          Reset password
+        </h1>
         <form
           action={user ? updatePassword : requestPasswordReset}
           className="mt-8 space-y-4"

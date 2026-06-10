@@ -1,16 +1,24 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function HomePage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-dogwood-linen p-6">
       <div className="w-full max-w-2xl rounded-lg border border-dogwood-green/15 bg-white/90 p-8 shadow-sm">
-        <div className="grid h-14 w-14 place-items-center rounded-md border border-dogwood-green/15 bg-dogwood-cream text-xs font-bold tracking-wide text-dogwood-green">
-          DG
+        <div className="grid h-16 w-16 place-items-center rounded-md border border-dogwood-green/15 bg-dogwood-green p-2">
+          <Image
+            alt="Dogwood Golf & Social logo"
+            className="h-full w-full object-contain"
+            height={64}
+            priority
+            src="/brand/Logos/Dog-Cream.png"
+            width={64}
+          />
         </div>
         <p className="mt-8 text-sm font-semibold uppercase tracking-wide text-dogwood-leaf">
           Dogwood Golf & Social
         </p>
-        <h1 className="mt-3 text-4xl font-semibold text-dogwood-ink sm:text-5xl">
+        <h1 className="mt-3 font-display text-4xl font-semibold text-dogwood-ink sm:text-5xl">
           Player Portal
         </h1>
         <p className="mt-4 text-base leading-7 text-dogwood-ink/75">

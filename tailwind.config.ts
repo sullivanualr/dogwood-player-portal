@@ -18,6 +18,10 @@ const config: Config = {
           brass: "#B08A43"
         }
       },
+      fontFamily: {
+        sans: ["var(--font-dogwood-sans)", "ui-sans-serif", "system-ui"],
+        display: ["var(--font-dogwood-display)", "var(--font-dogwood-sans)", "serif"]
+      },
       opacity: {
         8: "0.08",
         12: "0.12",
