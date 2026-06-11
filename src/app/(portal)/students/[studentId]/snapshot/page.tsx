@@ -5,6 +5,8 @@ import {
   SnapshotSection
 } from "@/components/dashboard/student-snapshot/snapshot-section";
 import { StudentRecordNav } from "@/components/app-shell/student-record-nav";
+import { PlayerActionBar } from "@/components/app-shell/player-action-bar";
+import { PrimaryButtonLink, SecondaryButtonLink } from "@/components/ui/buttons";
 import { ASSESSMENT_TYPE_OPTIONS } from "@/features/assessments/constants";
 import { METRIC_CATEGORY_OPTIONS } from "@/features/metrics/constants";
 import { getStudentSnapshot } from "@/features/students/snapshot";
@@ -88,9 +90,9 @@ export default async function StudentSnapshotPage({
     : null;
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
-      <div className="mb-6 overflow-hidden rounded-2xl bg-dogwood-green text-white shadow-[0_24px_70px_rgba(24,35,29,0.22)]">
-        <div className="grid gap-6 px-5 py-6 sm:px-6 lg:grid-cols-[1fr_25rem] lg:px-7 lg:py-7">
+    <section className="mx-auto max-w-7xl px-4 py-7 sm:px-6 lg:px-8 lg:py-9">
+      <div className="mb-6 overflow-hidden rounded-xl bg-dogwood-green text-white shadow-[0_24px_70px_rgba(24,35,29,0.20)]">
+        <div className="grid gap-6 px-5 py-6 sm:px-6 lg:grid-cols-[1fr_24rem] lg:px-7 lg:py-7">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-white/55">
               Player Snapshot
@@ -102,17 +104,16 @@ export default async function StudentSnapshotPage({
               A focused view of current development priorities, training work,
               recent feedback, and performance signals.
             </p>
-            {snapshot.canManageLessonNotes ? (
-              <Link
-                className="mt-5 inline-flex rounded-md bg-dogwood-cream px-4 py-2.5 text-sm font-semibold text-dogwood-green shadow-sm hover:bg-white"
-                href={`/students/${snapshot.student.id}/lessons`}
-              >
-                Add Lesson Note
-              </Link>
-            ) : null}
+            <div className="mt-5">
+              <PlayerActionBar
+                canManage={snapshot.canManageLessonNotes}
+                studentId={snapshot.student.id}
+                tone="dark"
+              />
+            </div>
           </div>
           <div className="grid content-start gap-3 text-sm text-white/75">
-            <div className="rounded-lg bg-white/8 px-4 py-3">
+            <div className="rounded-lg border border-white/10 bg-white/8 px-4 py-3">
               <p className="text-xs font-semibold uppercase tracking-wide text-white/50">
                 Current coach
               </p>
@@ -120,7 +121,7 @@ export default async function StudentSnapshotPage({
                 {coachName ?? "No coach assigned yet"}
               </p>
             </div>
-            <div className="rounded-lg bg-white/8 px-4 py-3">
+            <div className="rounded-lg border border-white/10 bg-white/8 px-4 py-3">
               <p className="text-xs font-semibold uppercase tracking-wide text-white/50">
                 Current program
               </p>
@@ -129,7 +130,7 @@ export default async function StudentSnapshotPage({
               </p>
             </div>
             <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-lg bg-white/8 px-4 py-3">
+              <div className="rounded-lg border border-white/10 bg-white/8 px-4 py-3">
                 <p className="text-xs font-semibold uppercase tracking-wide text-white/50">
                   Goals
                 </p>
@@ -137,7 +138,7 @@ export default async function StudentSnapshotPage({
                   {snapshot.goals.length}
                 </p>
               </div>
-              <div className="rounded-lg bg-white/8 px-4 py-3">
+              <div className="rounded-lg border border-white/10 bg-white/8 px-4 py-3">
                 <p className="text-xs font-semibold uppercase tracking-wide text-white/50">
                   Priorities
                 </p>
@@ -191,7 +192,10 @@ export default async function StudentSnapshotPage({
               </p>
             </div>
           ) : (
-            <EmptySnapshotState message="You do not have an active program assigned yet." />
+            <EmptySnapshotState
+              message="Assign a program to give this player a clear development track."
+              title="No program assigned"
+            />
           )}
         </SnapshotSection>
       </div>
@@ -230,7 +234,17 @@ export default async function StudentSnapshotPage({
               </Link>
             </div>
           ) : (
-            <EmptySnapshotState message="You do not have current development priorities yet." />
+            <EmptySnapshotState
+              action={
+                snapshot.canManageLessonNotes ? (
+                  <SecondaryButtonLink href={`/students/${snapshot.student.id}/priorities`}>
+                    Add first priority
+                  </SecondaryButtonLink>
+                ) : null
+              }
+              message="Priorities help focus the next block of player development work."
+              title="No active priorities"
+            />
           )}
         </SnapshotSection>
 
@@ -269,7 +283,17 @@ export default async function StudentSnapshotPage({
               </Link>
             </div>
           ) : (
-            <EmptySnapshotState message="You do not have active goals yet." />
+            <EmptySnapshotState
+              action={
+                snapshot.canManageLessonNotes ? (
+                  <SecondaryButtonLink href={`/students/${snapshot.student.id}/goals`}>
+                    Add goal
+                  </SecondaryButtonLink>
+                ) : null
+              }
+              message="Goals turn development themes into measurable outcomes."
+              title="No active goals"
+            />
           )}
         </SnapshotSection>
 
@@ -314,7 +338,17 @@ export default async function StudentSnapshotPage({
               </Link>
             </div>
           ) : (
-            <EmptySnapshotState message="You do not have a current practice plan yet." />
+            <EmptySnapshotState
+              action={
+                snapshot.canManageLessonNotes ? (
+                  <SecondaryButtonLink href={`/students/${snapshot.student.id}/practice-plans`}>
+                    Create practice plan
+                  </SecondaryButtonLink>
+                ) : null
+              }
+              message="A current plan gives the player clear work between lessons."
+              title="No current practice plan"
+            />
           )}
         </SnapshotSection>
 
@@ -346,7 +380,17 @@ export default async function StudentSnapshotPage({
               </Link>
             </div>
           ) : (
-            <EmptySnapshotState message="You do not have a visible lesson note yet." />
+            <EmptySnapshotState
+              action={
+                snapshot.canManageLessonNotes ? (
+                  <PrimaryButtonLink href={`/students/${snapshot.student.id}/lessons`}>
+                    Add first lesson note
+                  </PrimaryButtonLink>
+                ) : null
+              }
+              message="Published lesson notes will summarize the latest coaching session."
+              title="No visible lesson note"
+            />
           )}
         </SnapshotSection>
 
@@ -389,7 +433,17 @@ export default async function StudentSnapshotPage({
               </Link>
             </div>
           ) : (
-            <EmptySnapshotState message="You do not have visible assessment results yet." />
+            <EmptySnapshotState
+              action={
+                snapshot.canManageLessonNotes ? (
+                  <SecondaryButtonLink href={`/students/${snapshot.student.id}/assessments`}>
+                    Record assessment
+                  </SecondaryButtonLink>
+                ) : null
+              }
+              message="Assessments will show recent test results and player findings."
+              title="No visible assessments"
+            />
           )}
         </SnapshotSection>
 
@@ -426,7 +480,10 @@ export default async function StudentSnapshotPage({
               </Link>
             </div>
           ) : (
-            <EmptySnapshotState message="You do not have visible progress metrics yet." />
+            <EmptySnapshotState
+              message="Published metrics will appear here as the player builds a performance history."
+              title="No visible metrics"
+            />
           )}
         </SnapshotSection>
 
@@ -460,7 +517,10 @@ export default async function StudentSnapshotPage({
               </Link>
             </div>
           ) : (
-            <EmptySnapshotState message="You do not have an upcoming tournament yet." />
+            <EmptySnapshotState
+              message="Upcoming events will appear here when tournament records are added."
+              title="No upcoming tournaments"
+            />
           )}
         </SnapshotSection>
 
@@ -496,7 +556,10 @@ export default async function StudentSnapshotPage({
               </Link>
             </div>
           ) : (
-            <EmptySnapshotState message="You do not have recent tournament results yet." />
+            <EmptySnapshotState
+              message="Completed events will appear here once results are published."
+              title="No recent results"
+            />
           )}
         </SnapshotSection>
 
@@ -539,7 +602,10 @@ export default async function StudentSnapshotPage({
               </div>
             </div>
           ) : (
-            <EmptySnapshotState message="You do not have an uploaded video yet." />
+            <EmptySnapshotState
+              message="The latest visible swing or training video will appear here after upload."
+              title="No uploaded video"
+            />
           )}
         </SnapshotSection>
 
@@ -577,7 +643,10 @@ export default async function StudentSnapshotPage({
               </Link>
             </div>
           ) : (
-            <EmptySnapshotState message="You do not have workout assignments yet." />
+            <EmptySnapshotState
+              message="Workout assignments will appear here when fitness work is added."
+              title="No workout assignments"
+            />
           )}
         </SnapshotSection>
       </div>

@@ -96,6 +96,64 @@ export const getAdminUsersData = cache(async () => {
   };
 });
 
+export const getAdminDashboardData = cache(async () => {
+  await requireRole("admin");
+
+  const supabase = await createClient();
+  const [{ students }, profiles] = await Promise.all([
+    getAdminStudentsData(),
+    getProfilesWithRoles()
+  ]);
+
+  const { count: activeProgramCount, error: activeProgramError } =
+    await supabase
+      .from("programs")
+      .select("id", { count: "exact", head: true })
+      .eq("status", "active");
+
+  if (activeProgramError) {
+    throw activeProgramError;
+  }
+
+  const { count: priorityCount, error: priorityCountError } = await supabase
+    .from("development_priorities")
+    .select("id", { count: "exact", head: true })
+    .eq("status", "active");
+
+  if (priorityCountError) {
+    throw priorityCountError;
+  }
+
+  const { count: practicePlanCount, error: practicePlanCountError } =
+    await supabase
+      .from("practice_plans")
+      .select("id", { count: "exact", head: true })
+      .eq("status", "active");
+
+  if (practicePlanCountError) {
+    throw practicePlanCountError;
+  }
+
+  return {
+    activePlayers: students.length,
+    coaches: profiles.filter((profile) => profile.roles.includes("coach"))
+      .length,
+    playersMissingCoach: students.filter((student) => !student.assignedCoach)
+      .length,
+    playersMissingProgram: students.filter((student) => !student.currentProgram)
+      .length,
+    setup: {
+      hasPrograms: (activeProgramCount ?? 0) > 0,
+      hasCoaches: profiles.some((profile) => profile.roles.includes("coach")),
+      hasPlayers: students.length > 0,
+      hasCoachAssignments: students.some((student) => student.assignedCoach),
+      hasProgramAssignments: students.some((student) => student.currentProgram),
+      hasPriorities: (priorityCount ?? 0) > 0,
+      hasPracticePlans: (practicePlanCount ?? 0) > 0
+    }
+  };
+});
+
 export const getAdminProgramsData = cache(async () => {
   await requireRole("admin");
 

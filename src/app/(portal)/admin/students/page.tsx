@@ -1,5 +1,7 @@
-import Link from "next/link";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
+import { EmptyState } from "@/components/ui/empty-state";
+import { PrimaryButtonLink, SecondaryButtonLink } from "@/components/ui/buttons";
+import { SectionCard } from "@/components/ui/section-card";
 import {
   getAdminStudentsData,
   type AdminStudentRow
@@ -19,57 +21,70 @@ function EmptyValue({ children = "Not assigned" }: { children?: string }) {
 
 function StudentCard({ student }: { student: AdminStudentRow }) {
   return (
-    <article className="rounded-md border border-dogwood-green/15 bg-white p-4 shadow-sm">
-      <div className="grid gap-4 lg:grid-cols-[minmax(220px,1fr)_minmax(220px,1fr)_minmax(320px,auto)] lg:items-center">
+    <article className="rounded-lg border border-dogwood-green/10 bg-white/92 p-4 shadow-[0_12px_34px_rgba(24,35,29,0.05)]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(220px,1fr)_minmax(260px,0.9fr)_minmax(360px,auto)] xl:items-center">
         <div>
-          <h2 className="text-base font-semibold text-dogwood-ink">
-            {student.name}
-          </h2>
+          <div className="flex flex-wrap items-center gap-2">
+            <h2 className="text-lg font-semibold leading-tight text-dogwood-ink">
+              {student.name}
+            </h2>
+            {student.juniorPlayer ? (
+              <span className="rounded-full bg-dogwood-cream px-2 py-0.5 text-xs font-semibold uppercase text-dogwood-green">
+                Junior
+              </span>
+            ) : null}
+          </div>
           <p className="mt-1 text-sm text-dogwood-ink/60">{student.email}</p>
         </div>
 
-        <div className="grid gap-2 text-sm text-dogwood-ink/75 sm:grid-cols-3 lg:grid-cols-1">
+        <div className="grid gap-2 text-sm text-dogwood-ink/75 sm:grid-cols-2 xl:grid-cols-1">
           <p>
-            Junior:{" "}
-            <span className="font-medium text-dogwood-ink">
-              {student.juniorPlayer ? "Yes" : "No"}
-            </span>
-          </p>
-          <p>
-            Coach:{" "}
+            <span className="text-xs font-semibold uppercase tracking-wide text-dogwood-ink/45">
+              Coach
+            </span>{" "}
             {student.assignedCoach ? (
-              <span className="font-medium text-dogwood-ink">
+              <span className="block font-medium text-dogwood-ink">
                 {student.assignedCoach}
               </span>
             ) : (
-              <EmptyValue />
+              <span className="block">
+                <EmptyValue />
+              </span>
             )}
           </p>
           <p>
-            Program:{" "}
+            <span className="text-xs font-semibold uppercase tracking-wide text-dogwood-ink/45">
+              Program
+            </span>{" "}
             {student.currentProgram ? (
-              <span className="font-medium text-dogwood-ink">
+              <span className="block font-medium text-dogwood-ink">
                 {student.currentProgram}
               </span>
             ) : (
-              <EmptyValue />
+              <span className="block">
+                <EmptyValue />
+              </span>
             )}
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-2 lg:justify-end">
+        <div className="flex flex-wrap gap-2 xl:justify-end">
           {STUDENT_ACTIONS.map((action) => (
-            <Link
-              className={
-                action.primary
-                  ? "rounded-md bg-dogwood-green px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-dogwood-ink"
-                  : "rounded-md border border-dogwood-green/15 px-3 py-2 text-sm font-medium text-dogwood-ink hover:border-dogwood-leaf hover:text-dogwood-green"
-              }
-              href={`/students/${student.id}/${action.segment}`}
-              key={action.segment}
-            >
-              {action.label}
-            </Link>
+            action.primary ? (
+              <PrimaryButtonLink
+                href={`/students/${student.id}/${action.segment}`}
+                key={action.segment}
+              >
+                {action.label}
+              </PrimaryButtonLink>
+            ) : (
+              <SecondaryButtonLink
+                href={`/students/${student.id}/${action.segment}`}
+                key={action.segment}
+              >
+                {action.label}
+              </SecondaryButtonLink>
+            )
           ))}
         </div>
       </div>
@@ -81,21 +96,29 @@ export default async function AdminStudentsPage() {
   const { students } = await getAdminStudentsData();
 
   return (
-    <DashboardShell eyebrow="Admin" title="Students">
-      <div className="mb-6 flex flex-col gap-3 border-b border-dogwood-green/10 pb-5 md:flex-row md:items-end md:justify-between">
-        <div>
-          <p className="text-sm leading-6 text-dogwood-ink/70">
-            Open player profiles and student development workflows without
-            copying IDs or typing URLs.
-          </p>
-        </div>
-        <Link
-          className="inline-flex w-fit rounded-md border border-dogwood-green/15 px-3 py-2 text-sm font-medium text-dogwood-ink hover:border-dogwood-leaf hover:text-dogwood-green"
-          href="/admin/assignments"
-        >
+    <DashboardShell
+      actions={
+        <SecondaryButtonLink href="/admin/assignments">
           Manage assignments
-        </Link>
-      </div>
+        </SecondaryButtonLink>
+      }
+      description="The roster is the home base for opening player profiles, adding coaching notes, and moving into active development work."
+      eyebrow="Admin"
+      title="Players"
+    >
+      <SectionCard className="mb-5" title="Roster Filters">
+        <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_12rem_12rem]">
+          <div className="rounded-md border border-dogwood-green/10 bg-dogwood-linen px-3 py-2.5 text-sm text-dogwood-ink/45">
+            Search players by name or email
+          </div>
+          <div className="rounded-md border border-dogwood-green/10 bg-dogwood-linen px-3 py-2.5 text-sm text-dogwood-ink/45">
+            Coach
+          </div>
+          <div className="rounded-md border border-dogwood-green/10 bg-dogwood-linen px-3 py-2.5 text-sm text-dogwood-ink/45">
+            Program
+          </div>
+        </div>
+      </SectionCard>
 
       {students.length ? (
         <div className="grid gap-3">
@@ -104,9 +127,15 @@ export default async function AdminStudentsPage() {
           ))}
         </div>
       ) : (
-        <div className="rounded-md border border-dashed border-dogwood-green/20 bg-dogwood-cream/40 px-5 py-8 text-sm leading-6 text-dogwood-ink/65">
-          No active student profiles are available yet.
-        </div>
+        <EmptyState
+          action={
+            <SecondaryButtonLink href="/admin/users">
+              Create first player profile
+            </SecondaryButtonLink>
+          }
+          message="Create a student profile, then return here to open the player profile and begin development setup."
+          title="No active players yet"
+        />
       )}
     </DashboardShell>
   );

@@ -29,8 +29,8 @@ export function PortalNavLinks({ items }: { items: PortalNavItem[] }) {
             aria-current={isActive ? "page" : undefined}
             className={
               isActive
-                ? "shrink-0 rounded-md bg-white px-3 py-2.5 font-semibold text-dogwood-green shadow-sm"
-                : "shrink-0 rounded-md px-3 py-2.5 font-medium text-dogwood-ink/70 hover:bg-dogwood-cream hover:text-dogwood-ink lg:text-white/72 lg:hover:bg-white/10 lg:hover:text-white"
+                ? "shrink-0 rounded-md bg-dogwood-green/8 px-3 py-2.5 font-semibold text-dogwood-green ring-1 ring-dogwood-green/12 lg:bg-white/10 lg:text-white lg:ring-white/12"
+                : "shrink-0 rounded-md px-3 py-2.5 font-medium text-dogwood-ink/70 hover:bg-dogwood-cream hover:text-dogwood-ink lg:text-white/70 lg:hover:bg-white/8 lg:hover:text-white"
             }
             href={item.href}
             key={item.href}

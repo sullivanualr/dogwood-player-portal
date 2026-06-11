@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
+import { EmptyState } from "@/components/ui/empty-state";
+import { PrimaryButtonLink, SecondaryButtonLink } from "@/components/ui/buttons";
+import { SectionCard } from "@/components/ui/section-card";
 import {
   getAssessmentTypeLabel,
   getCoachDashboardData,
@@ -40,18 +43,20 @@ function StudentSummary({ student }: { student: CoachDashboardStudent }) {
   const recentAssessment = student.recentAssessment;
 
   return (
-    <article className="border-t border-dogwood-green/10 py-6 first:border-t-0 first:pt-0 last:pb-0">
-      <div className="grid gap-5 xl:grid-cols-[minmax(180px,0.9fr)_minmax(0,1.5fr)_minmax(220px,1fr)]">
+    <article className="rounded-lg border border-dogwood-green/10 bg-white/92 p-5 shadow-[0_12px_34px_rgba(24,35,29,0.05)]">
+      <div className="grid gap-5 xl:grid-cols-[minmax(200px,0.8fr)_minmax(0,1.3fr)_minmax(260px,1fr)]">
         <div>
           <Link
-            className="text-lg font-semibold text-dogwood-ink hover:text-dogwood-leaf"
+            className="text-xl font-semibold leading-tight text-dogwood-ink hover:text-dogwood-leaf"
             href={`/students/${student.id}/snapshot`}
           >
             {student.name}
           </Link>
           <p className="mt-1 text-sm text-dogwood-ink/60">{student.email}</p>
-          <p className="mt-3 text-sm text-dogwood-ink/75">
-            Program:{" "}
+          <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-dogwood-ink/45">
+            Program
+          </p>
+          <p className="mt-1 text-sm text-dogwood-ink/75">
             {student.program ? (
               <span className="font-medium text-dogwood-ink">
                 {student.program.name}
@@ -60,12 +65,12 @@ function StudentSummary({ student }: { student: CoachDashboardStudent }) {
               <EmptyValue />
             )}
           </p>
-          <Link
-            className="mt-4 inline-flex rounded-md bg-dogwood-green px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-dogwood-ink"
+          <PrimaryButtonLink
+            className="mt-4"
             href={`/students/${student.id}/snapshot`}
           >
             Open Player Profile
-          </Link>
+          </PrimaryButtonLink>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
@@ -142,13 +147,13 @@ function StudentSummary({ student }: { student: CoachDashboardStudent }) {
           </p>
           <div className="flex flex-wrap gap-2 pt-1">
             {QUICK_ACTIONS.map((action) => (
-              <Link
-                className="rounded-md border border-dogwood-green/15 px-2.5 py-1.5 text-xs font-medium text-dogwood-ink hover:border-dogwood-leaf hover:text-dogwood-green"
+              <SecondaryButtonLink
+                className="px-2.5 py-1.5 text-xs"
                 href={`/students/${student.id}/${action.path}`}
                 key={action.path}
               >
                 {action.label}
-              </Link>
+              </SecondaryButtonLink>
             ))}
           </div>
         </div>
@@ -161,31 +166,36 @@ export default async function CoachDashboardPage() {
   const { students, canViewAsAdmin } = await getCoachDashboardData();
 
   return (
-    <DashboardShell eyebrow="Coach" title="Coach Dashboard">
-      <div className="mb-6 flex flex-col gap-2 border-b border-dogwood-green/10 pb-5 md:flex-row md:items-end md:justify-between">
-        <div>
-          <p className="text-sm leading-6 text-dogwood-ink/70">
-            {canViewAsAdmin
-              ? "Admin roster view for student development records."
-              : "Assigned students and coaching workflow shortcuts."}
+    <DashboardShell
+      description={
+        canViewAsAdmin
+          ? "Admin roster view for coaching workflows, player profiles, and active development signals."
+          : "Assigned players, current development signals, and quick access to coaching workflows."
+      }
+      eyebrow="Coach"
+      title="Coach Dashboard"
+    >
+      <SectionCard
+        actions={
+          <p className="text-sm font-medium text-dogwood-ink/60">
+            {students.length} {students.length === 1 ? "player" : "players"}
           </p>
-        </div>
-        <p className="text-sm font-medium text-dogwood-ink/60">
-          {students.length} {students.length === 1 ? "student" : "students"}
-        </p>
-      </div>
-
-      {students.length ? (
-        <div>
-          {students.map((student) => (
-            <StudentSummary key={student.id} student={student} />
-          ))}
-        </div>
-      ) : (
-        <div className="rounded-md border border-dashed border-dogwood-green/20 bg-dogwood-cream/40 px-5 py-8 text-sm leading-6 text-dogwood-ink/65">
-          No assigned students are available yet.
-        </div>
-      )}
+        }
+        title="Player Queue"
+      >
+        {students.length ? (
+          <div className="grid gap-3">
+            {students.map((student) => (
+              <StudentSummary key={student.id} student={student} />
+            ))}
+          </div>
+        ) : (
+          <EmptyState
+            message="Once players are assigned to this coach, their profile links and development context will appear here."
+            title="No assigned players yet"
+          />
+        )}
+      </SectionCard>
     </DashboardShell>
   );
 }
