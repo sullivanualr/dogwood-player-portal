@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { StudentRecordNav } from "@/components/app-shell/student-record-nav";
 import { archivePracticePlan } from "@/features/practice-plans/actions";
 import { PracticePlanForm } from "@/features/practice-plans/practice-plan-form";
 import { PracticePlanItemForm } from "@/features/practice-plans/practice-plan-item-form";
@@ -153,6 +154,7 @@ function PracticePlanCard({
           </div>
         )}
       </div>
+      <StudentRecordNav active="practice-plans" studentId={student.id} />
 
       {canManage ? (
         <div className="mt-5 grid gap-4">

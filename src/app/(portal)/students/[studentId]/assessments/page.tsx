@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { StudentRecordNav } from "@/components/app-shell/student-record-nav";
 import { archiveAssessment } from "@/features/assessments/actions";
 import { AssessmentForm } from "@/features/assessments/assessment-form";
 import {
@@ -123,6 +124,7 @@ function AssessmentCard({
           </form>
         ) : null}
       </div>
+      <StudentRecordNav active="assessments" studentId={student.id} />
 
       {canManage ? (
         <details className="mt-5 rounded-md border border-dogwood-green/15 bg-dogwood-cream/50 p-4">

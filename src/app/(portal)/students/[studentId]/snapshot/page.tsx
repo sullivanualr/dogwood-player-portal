@@ -4,6 +4,7 @@ import {
   SnapshotField,
   SnapshotSection
 } from "@/components/dashboard/student-snapshot/snapshot-section";
+import { StudentRecordNav } from "@/components/app-shell/student-record-nav";
 import { ASSESSMENT_TYPE_OPTIONS } from "@/features/assessments/constants";
 import { METRIC_CATEGORY_OPTIONS } from "@/features/metrics/constants";
 import { getStudentSnapshot } from "@/features/students/snapshot";
@@ -13,18 +14,6 @@ type StudentSnapshotPageProps = {
     studentId: string;
   }>;
 };
-
-const STUDENT_NAV_ITEMS = [
-  { label: "Snapshot", segment: "snapshot" },
-  { label: "Practice Plan", segment: "practice-plans" },
-  { label: "Goals", segment: "goals" },
-  { label: "Lessons", segment: "lessons" },
-  { label: "Assessments", segment: "assessments" },
-  { label: "Metrics", segment: "metrics" },
-  { label: "Tournaments", segment: "tournaments" },
-  { label: "Files", segment: "files" },
-  { label: "Fitness", segment: "fitness" }
-];
 
 const ASSESSMENT_TYPE_LABELS = new Map(
   ASSESSMENT_TYPE_OPTIONS.map((option) => [option.value, option.label])
@@ -88,22 +77,6 @@ function statusLabel(value: string) {
   return value.replaceAll("_", " ");
 }
 
-function StudentNav({ studentId }: { studentId: string }) {
-  return (
-    <nav className="mb-6 flex gap-2 overflow-x-auto rounded-lg border border-dogwood-green/10 bg-white/80 p-2 shadow-sm">
-      {STUDENT_NAV_ITEMS.map((item) => (
-        <Link
-          className="shrink-0 rounded-md px-3 py-2 text-sm font-medium text-dogwood-ink/72 hover:bg-dogwood-cream hover:text-dogwood-green"
-          href={`/students/${studentId}/${item.segment}`}
-          key={item.segment}
-        >
-          {item.label}
-        </Link>
-      ))}
-    </nav>
-  );
-}
-
 export default async function StudentSnapshotPage({
   params
 }: StudentSnapshotPageProps) {
@@ -159,7 +132,7 @@ export default async function StudentSnapshotPage({
         </div>
       </div>
 
-      <StudentNav studentId={snapshot.student.id} />
+      <StudentRecordNav active="snapshot" studentId={snapshot.student.id} />
 
       <div className="mb-6 grid gap-4 md:grid-cols-2">
         <SnapshotSection title="My Profile">

@@ -90,15 +90,38 @@ body {
   }
 
   details {
-    background-image: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.72),
-      rgba(255, 255, 255, 0)
-    );
+    border-radius: 0.625rem;
   }
 
   summary {
-    list-style-position: outside;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary::after {
+    content: "+";
+    display: grid;
+    height: 1.5rem;
+    width: 1.5rem;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 999px;
+    background-color: rgba(29, 57, 43, 0.08);
+    color: #1d392b;
+    font-family: var(--font-dogwood-sans), ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.875rem;
+    line-height: 1;
+  }
+
+  details[open] > summary::after {
+    content: "-";
   }
 
   button:disabled {

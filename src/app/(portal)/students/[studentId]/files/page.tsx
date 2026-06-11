@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { StudentRecordNav } from "@/components/app-shell/student-record-nav";
 import {
   archiveFileAsset,
   archiveVideoAsset
@@ -247,6 +248,7 @@ export default async function AssetsPage({ params }: AssetsPageProps) {
           Back to snapshot
         </Link>
       </div>
+      <StudentRecordNav active="files" studentId={student.id} />
 
       {canManage ? (
         <div className="mb-6 grid gap-4 lg:grid-cols-2">

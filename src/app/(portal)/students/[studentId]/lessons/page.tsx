@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { StudentRecordNav } from "@/components/app-shell/student-record-nav";
 import { archiveLessonNote } from "@/features/lessons/actions";
 import { LessonNoteForm } from "@/features/lessons/lesson-note-form";
 import {
@@ -96,6 +97,7 @@ function LessonNoteCard({
           </form>
         ) : null}
       </div>
+      <StudentRecordNav active="lessons" studentId={student.id} />
 
       {canManage ? (
         <details className="mt-5 rounded-md border border-dogwood-green/15 bg-dogwood-cream/50 p-4">

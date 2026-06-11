@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { StudentRecordNav } from "@/components/app-shell/student-record-nav";
 import { archiveProgressMetric } from "@/features/metrics/actions";
 import {
   FITNESS_METRIC_CATEGORIES,
@@ -110,6 +111,7 @@ function ProgressMetricCard({
           </form>
         ) : null}
       </div>
+      <StudentRecordNav active="metrics" studentId={student.id} />
 
       {canManage ? (
         <details className="mt-5 rounded-md border border-dogwood-green/15 bg-dogwood-cream/50 p-4">

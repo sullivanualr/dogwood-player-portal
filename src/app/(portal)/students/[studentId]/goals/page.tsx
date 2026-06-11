@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { StudentRecordNav } from "@/components/app-shell/student-record-nav";
 import { archiveGoal } from "@/features/goals/actions";
 import { GoalForm } from "@/features/goals/goal-form";
 import {
@@ -91,6 +92,7 @@ function GoalCard({
           </form>
         ) : null}
       </div>
+      <StudentRecordNav active="goals" studentId={student.id} />
 
       {canManage ? (
         <details className="mt-5 rounded-md border border-dogwood-green/15 bg-dogwood-cream/50 p-4">

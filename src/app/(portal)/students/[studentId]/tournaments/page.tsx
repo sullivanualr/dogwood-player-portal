@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { StudentRecordNav } from "@/components/app-shell/student-record-nav";
 import { archiveTournamentResult } from "@/features/tournaments/actions";
 import { TournamentResultForm } from "@/features/tournaments/tournament-result-form";
 import {
@@ -124,6 +125,7 @@ function TournamentCard({
           </form>
         ) : null}
       </div>
+      <StudentRecordNav active="tournaments" studentId={student.id} />
 
       {canManage ? (
         <details className="mt-5 rounded-md border border-dogwood-green/15 bg-dogwood-cream/50 p-4">

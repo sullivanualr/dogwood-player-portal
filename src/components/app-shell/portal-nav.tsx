@@ -12,9 +12,11 @@ const NAV_ITEMS: Array<{
   label: string;
   roles: AppRole[];
 }> = [
-  { href: "/admin", label: "Admin", roles: ["admin"] },
+  { href: "/admin", label: "Admin Dashboard", roles: ["admin"] },
   { href: "/admin/students", label: "Students", roles: ["admin"] },
-  { href: "/coach", label: "Students", roles: ["coach"] },
+  { href: "/admin/programs", label: "Programs", roles: ["admin"] },
+  { href: "/admin/assignments", label: "Assignments", roles: ["admin"] },
+  { href: "/coach", label: "Coach Dashboard", roles: ["admin", "coach"] },
   { href: "/student", label: "Student", roles: ["student"] },
   { href: "/parent", label: "Parent", roles: ["parent"] },
   { href: "/fitness", label: "Fitness/PT", roles: ["fitness_pt"] }
@@ -27,13 +29,13 @@ export function PortalNav({ roles }: { roles: AppRole[] }) {
   const homeHref = getDefaultPathForRoles(roles);
 
   return (
-    <header className="border-b border-dogwood-green/10 bg-white/90 backdrop-blur lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-72 lg:flex-col lg:border-b-0 lg:border-r lg:bg-dogwood-green lg:text-white">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 lg:mx-0 lg:h-full lg:max-w-none lg:flex-col lg:items-stretch lg:justify-start lg:px-5 lg:py-6">
+    <header className="border-b border-dogwood-green/10 bg-white/90 backdrop-blur lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-72 lg:flex-col lg:border-b-0 lg:border-r-0 lg:bg-dogwood-green lg:text-white lg:shadow-[8px_0_30px_rgba(24,35,29,0.16)]">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 lg:mx-0 lg:h-full lg:max-w-none lg:flex-col lg:items-stretch lg:justify-start lg:px-6 lg:py-7">
         <Link
-          className="flex items-center gap-3 font-semibold text-dogwood-ink lg:text-white"
+          className="flex items-center gap-3 font-semibold text-dogwood-ink lg:grid lg:gap-2 lg:text-white"
           href={homeHref}
         >
-          <span className="grid h-12 w-36 shrink-0 place-items-center rounded-md border border-dogwood-green/20 bg-dogwood-green p-2 shadow-sm lg:border-white/15">
+          <span className="grid h-12 w-36 shrink-0 place-items-center bg-transparent p-0">
             <Image
               alt="Dogwood Golf & Social logo"
               className="h-full w-full object-contain"
@@ -43,17 +45,14 @@ export function PortalNav({ roles }: { roles: AppRole[] }) {
               width={144}
             />
           </span>
-          <span className="leading-tight">
-            <span className="block font-display text-lg">Dogwood</span>
-            <span className="block text-xs font-medium uppercase tracking-wide text-dogwood-ink/60 lg:text-white/60">
-              Player Portal
-            </span>
+          <span className="text-xs font-medium uppercase tracking-wide text-dogwood-ink/60 lg:text-white/55">
+            Player Portal
           </span>
         </Link>
-        <nav className="hidden items-center gap-2 text-sm md:flex lg:mt-8 lg:grid lg:items-stretch">
+        <nav className="hidden items-center gap-1.5 text-sm md:flex lg:mt-10 lg:grid lg:items-stretch">
           {visibleItems.map((item) => (
             <Link
-              className="rounded-md px-3 py-2 font-medium text-dogwood-ink/70 hover:bg-dogwood-cream hover:text-dogwood-ink lg:text-white/75 lg:hover:bg-white/10 lg:hover:text-white"
+              className="rounded-md px-3 py-2.5 font-medium text-dogwood-ink/70 hover:bg-dogwood-cream hover:text-dogwood-ink lg:text-white/72 lg:hover:bg-white/10 lg:hover:text-white"
               href={item.href}
               key={item.href}
             >
@@ -62,7 +61,7 @@ export function PortalNav({ roles }: { roles: AppRole[] }) {
           ))}
         </nav>
         <div className="flex items-center gap-3 lg:mt-auto lg:grid lg:gap-4">
-          <span className="hidden text-xs text-dogwood-ink/60 sm:inline lg:block lg:rounded-md lg:border lg:border-white/10 lg:bg-white/10 lg:px-3 lg:py-2 lg:text-white/65">
+          <span className="hidden text-xs text-dogwood-ink/60 sm:inline lg:block lg:rounded-md lg:bg-white/8 lg:px-3 lg:py-2 lg:text-white/60">
             {roles.map((role) => ROLE_LABELS[role]).join(", ")}
           </span>
           <form action={signOut}>
