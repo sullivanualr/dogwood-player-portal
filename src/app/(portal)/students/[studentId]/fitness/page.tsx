@@ -118,8 +118,6 @@ function FitnessPlanCard({
           </form>
         ) : null}
       </div>
-      <StudentRecordNav active="fitness" studentId={student.id} />
-
       {canManage ? (
         <details className="mt-5 rounded-md border border-dogwood-green/15 bg-dogwood-cream/50 p-4">
           <summary className="cursor-pointer text-sm font-semibold text-dogwood-ink">
@@ -284,6 +282,8 @@ export default async function FitnessPage({ params }: FitnessPageProps) {
           Back to snapshot
         </Link>
       </div>
+
+      <StudentRecordNav active="fitness" studentId={student.id} />
 
       {canManage ? (
         <div className="mb-6 grid gap-4 lg:grid-cols-2">

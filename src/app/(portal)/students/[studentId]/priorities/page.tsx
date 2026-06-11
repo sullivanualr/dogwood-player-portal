@@ -124,8 +124,6 @@ function PriorityCard({
           </div>
         ) : null}
       </div>
-      <StudentRecordNav active="priorities" studentId={student.id} />
-
       {canManage ? (
         <details className="mt-5 rounded-md border border-dogwood-green/15 bg-dogwood-cream/50 p-4">
           <summary className="cursor-pointer text-sm font-semibold text-dogwood-ink">
@@ -169,6 +167,8 @@ export default async function DevelopmentPrioritiesPage({
           Back to snapshot
         </Link>
       </div>
+
+      <StudentRecordNav active="priorities" studentId={student.id} />
 
       {canManage ? (
         <details className="mb-6 rounded-lg border border-dogwood-green/15 bg-white p-5 shadow-sm">

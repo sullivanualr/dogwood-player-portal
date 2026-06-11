@@ -154,8 +154,6 @@ function PracticePlanCard({
           </div>
         )}
       </div>
-      <StudentRecordNav active="practice-plans" studentId={student.id} />
-
       {canManage ? (
         <div className="mt-5 grid gap-4">
           <details className="rounded-md border border-dogwood-green/15 bg-dogwood-cream/50 p-4">
@@ -215,6 +213,8 @@ export default async function PracticePlansPage({
           Back to snapshot
         </Link>
       </div>
+
+      <StudentRecordNav active="practice-plans" studentId={student.id} />
 
       {canManage ? (
         <details className="mb-6 rounded-lg border border-dogwood-green/15 bg-white p-5 shadow-sm">
