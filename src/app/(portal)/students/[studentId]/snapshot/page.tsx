@@ -89,42 +89,60 @@ export default async function StudentSnapshotPage({
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
-      <div className="mb-6 overflow-hidden rounded-lg border border-dogwood-green/10 bg-white/90 shadow-sm">
-        <div className="bg-dogwood-green px-5 py-5 text-white sm:px-6">
-          <p className="text-sm font-semibold uppercase tracking-wide text-white/65">
-            My Player Snapshot
-          </p>
-          <div className="mt-3 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <h1 className="text-3xl font-semibold sm:text-4xl">{fullName}</h1>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-white/70">
-                Your current plan, goals, coach notes, progress, and workouts in
-                one read-only view.
+      <div className="mb-6 overflow-hidden rounded-2xl bg-dogwood-green text-white shadow-[0_24px_70px_rgba(24,35,29,0.22)]">
+        <div className="grid gap-6 px-5 py-6 sm:px-6 lg:grid-cols-[1fr_25rem] lg:px-7 lg:py-7">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-white/55">
+              Player Snapshot
+            </p>
+            <h1 className="mt-3 text-4xl font-semibold leading-tight sm:text-5xl">
+              {fullName}
+            </h1>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/70">
+              A focused view of current development priorities, training work,
+              recent feedback, and performance signals.
+            </p>
+            {snapshot.canManageLessonNotes ? (
+              <Link
+                className="mt-5 inline-flex rounded-md bg-dogwood-cream px-4 py-2.5 text-sm font-semibold text-dogwood-green shadow-sm hover:bg-white"
+                href={`/students/${snapshot.student.id}/lessons`}
+              >
+                Add Lesson Note
+              </Link>
+            ) : null}
+          </div>
+          <div className="grid content-start gap-3 text-sm text-white/75">
+            <div className="rounded-lg bg-white/8 px-4 py-3">
+              <p className="text-xs font-semibold uppercase tracking-wide text-white/50">
+                Current coach
               </p>
-              {snapshot.canManageLessonNotes ? (
-                <Link
-                  className="mt-4 inline-flex rounded-md bg-white px-4 py-2 text-sm font-semibold text-dogwood-green shadow-sm hover:bg-dogwood-cream"
-                  href={`/students/${snapshot.student.id}/lessons`}
-                >
-                  Add Lesson Note
-                </Link>
-              ) : null}
+              <p className="mt-1 font-medium text-white">
+                {coachName ?? "No coach assigned yet"}
+              </p>
             </div>
-            <div className="grid gap-3 text-sm text-white/75 sm:grid-cols-2 lg:min-w-96">
-              <div className="rounded-md border border-white/10 bg-white/10 px-4 py-3">
-                <p className="text-xs font-semibold uppercase tracking-wide text-white/55">
-                  Current coach
+            <div className="rounded-lg bg-white/8 px-4 py-3">
+              <p className="text-xs font-semibold uppercase tracking-wide text-white/50">
+                Current program
+              </p>
+              <p className="mt-1 font-medium text-white">
+                {snapshot.program?.name ?? "No active program yet"}
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-lg bg-white/8 px-4 py-3">
+                <p className="text-xs font-semibold uppercase tracking-wide text-white/50">
+                  Goals
                 </p>
-                <p className="mt-1 font-medium text-white">
-                  {coachName ?? "No coach assigned yet"}
+                <p className="mt-1 text-2xl font-semibold text-white">
+                  {snapshot.goals.length}
                 </p>
               </div>
-              <div className="rounded-md border border-white/10 bg-white/10 px-4 py-3">
-                <p className="text-xs font-semibold uppercase tracking-wide text-white/55">
-                  Current program
+              <div className="rounded-lg bg-white/8 px-4 py-3">
+                <p className="text-xs font-semibold uppercase tracking-wide text-white/50">
+                  Priorities
                 </p>
-                <p className="mt-1 font-medium text-white">
-                  {snapshot.program?.name ?? "No active program yet"}
+                <p className="mt-1 text-2xl font-semibold text-white">
+                  {snapshot.developmentPriorities.length}
                 </p>
               </div>
             </div>

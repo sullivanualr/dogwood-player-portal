@@ -1,6 +1,5 @@
 import { signIn } from "@/app/(auth)/actions";
 import { getCurrentUser, getCurrentUserDefaultPath } from "@/lib/auth/server";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 
 type LoginPageProps = {
@@ -21,11 +20,10 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       <section className="hidden rounded-lg bg-dogwood-green p-8 text-white shadow-sm lg:flex lg:flex-col lg:justify-between">
         <div>
           <div className="grid h-20 w-48 place-items-center rounded-md border border-white/15 bg-white/5 p-3">
-            <Image
+            <img
               alt="Dogwood Golf & Social logo"
               className="h-full w-full object-contain"
               height={80}
-              priority
               src="/brand/logos/Dogwood-Full-Cream.svg"
               width={160}
             />
@@ -47,11 +45,10 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         <div className="w-full max-w-md rounded-lg border border-dogwood-green/15 bg-white/95 p-6 shadow-sm sm:p-8">
           <div className="mb-8 flex items-center gap-3">
             <div className="grid h-14 w-36 place-items-center rounded-md border border-dogwood-green/15 bg-dogwood-cream p-2">
-              <Image
+              <img
                 alt="Dogwood Golf & Social logo"
                 className="h-full w-full object-contain"
                 height={56}
-                priority
                 src="/brand/logos/Dogwood-Full-Green.svg"
                 width={144}
               />

@@ -21,8 +21,14 @@ export function StudentRecordNav({
   active: string;
 }) {
   return (
-    <nav className="mb-6 overflow-x-auto rounded-lg border border-dogwood-green/10 bg-white/90 p-1.5 shadow-sm">
-      <div className="flex min-w-max gap-1">
+    <nav className="mb-6 rounded-xl bg-dogwood-green p-3 text-white shadow-[0_18px_45px_rgba(24,35,29,0.16)]">
+      <div className="mb-2 flex items-center justify-between gap-3 px-1">
+        <p className="text-xs font-semibold uppercase tracking-wide text-white/55">
+          Player Menu
+        </p>
+        <span className="h-px flex-1 bg-white/10" />
+      </div>
+      <div className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-5">
         {STUDENT_RECORD_NAV_ITEMS.map((item) => {
           const isActive = item.segment === active;
 
@@ -30,8 +36,8 @@ export function StudentRecordNav({
             <Link
               className={
                 isActive
-                  ? "rounded-md bg-dogwood-green px-3 py-2 text-sm font-semibold text-white shadow-sm"
-                  : "rounded-md px-3 py-2 text-sm font-medium text-dogwood-ink/68 hover:bg-dogwood-cream hover:text-dogwood-green"
+                  ? "rounded-md bg-dogwood-cream px-3 py-2 text-sm font-semibold text-dogwood-green shadow-sm"
+                  : "rounded-md px-3 py-2 text-sm font-medium text-white/70 hover:bg-white/10 hover:text-white"
               }
               href={`/students/${studentId}/${item.segment}`}
               key={item.segment}

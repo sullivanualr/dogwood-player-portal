@@ -9,6 +9,11 @@ const ADMIN_LINKS = [
     description: "Open player profiles and development workflows."
   },
   {
+    href: "/coach",
+    title: "Coach Dashboard",
+    description: "Review the coaching roster and player action links."
+  },
+  {
     href: "/admin/programs",
     title: "Programs",
     description: "Manage active player development programs."
@@ -17,11 +22,6 @@ const ADMIN_LINKS = [
     href: "/admin/assignments",
     title: "Assignments",
     description: "Connect students with coaches, parents, PT, and programs."
-  },
-  {
-    href: "/coach",
-    title: "Coach Dashboard",
-    description: "Review the coaching roster and player action links."
   },
   {
     href: "/admin/users",

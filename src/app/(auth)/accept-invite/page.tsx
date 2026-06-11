@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { redirect } from "next/navigation";
 import { getCurrentUser, getCurrentUserDefaultPath } from "@/lib/auth/server";
 
@@ -12,11 +11,10 @@ export default async function AcceptInvitePage() {
       <section className="w-full max-w-md rounded-lg border border-dogwood-green/15 bg-white/95 p-6 shadow-sm sm:p-8">
         <div className="mb-8 flex items-center gap-3">
           <div className="grid h-14 w-36 place-items-center rounded-md border border-dogwood-green/15 bg-dogwood-cream p-2">
-            <Image
+            <img
               alt="Dogwood Golf & Social logo"
               className="h-full w-full object-contain"
               height={56}
-              priority
               src="/brand/logos/Dogwood-Full-Green.svg"
               width={144}
             />

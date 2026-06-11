@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { signOut } from "@/app/(auth)/actions";
+import { PortalNavLinks } from "@/components/app-shell/portal-nav-links";
 import {
   getDefaultPathForRoles,
   ROLE_LABELS,
@@ -14,9 +14,9 @@ const NAV_ITEMS: Array<{
 }> = [
   { href: "/admin", label: "Admin Dashboard", roles: ["admin"] },
   { href: "/admin/students", label: "Students", roles: ["admin"] },
+  { href: "/coach", label: "Coach Dashboard", roles: ["admin", "coach"] },
   { href: "/admin/programs", label: "Programs", roles: ["admin"] },
   { href: "/admin/assignments", label: "Assignments", roles: ["admin"] },
-  { href: "/coach", label: "Coach Dashboard", roles: ["admin", "coach"] },
   { href: "/student", label: "Student", roles: ["student"] },
   { href: "/parent", label: "Parent", roles: ["parent"] },
   { href: "/fitness", label: "Fitness/PT", roles: ["fitness_pt"] }
@@ -36,11 +36,10 @@ export function PortalNav({ roles }: { roles: AppRole[] }) {
           href={homeHref}
         >
           <span className="grid h-12 w-36 shrink-0 place-items-center bg-transparent p-0">
-            <Image
+            <img
               alt="Dogwood Golf & Social logo"
               className="h-full w-full object-contain"
               height={48}
-              priority
               src="/brand/logos/Dogwood-Full-Cream.svg"
               width={144}
             />
@@ -50,15 +49,7 @@ export function PortalNav({ roles }: { roles: AppRole[] }) {
           </span>
         </Link>
         <nav className="hidden items-center gap-1.5 text-sm md:flex lg:mt-10 lg:grid lg:items-stretch">
-          {visibleItems.map((item) => (
-            <Link
-              className="rounded-md px-3 py-2.5 font-medium text-dogwood-ink/70 hover:bg-dogwood-cream hover:text-dogwood-ink lg:text-white/72 lg:hover:bg-white/10 lg:hover:text-white"
-              href={item.href}
-              key={item.href}
-            >
-              {item.label}
-            </Link>
-          ))}
+          <PortalNavLinks items={visibleItems} />
         </nav>
         <div className="flex items-center gap-3 lg:mt-auto lg:grid lg:gap-4">
           <span className="hidden text-xs text-dogwood-ink/60 sm:inline lg:block lg:rounded-md lg:bg-white/8 lg:px-3 lg:py-2 lg:text-white/60">
@@ -75,15 +66,7 @@ export function PortalNav({ roles }: { roles: AppRole[] }) {
         </div>
       </div>
       <nav className="flex gap-2 overflow-x-auto border-t border-dogwood-green/10 px-5 py-3 text-sm md:hidden">
-        {visibleItems.map((item) => (
-          <Link
-            className="shrink-0 rounded-md border border-dogwood-green/15 bg-white px-3 py-2 font-medium text-dogwood-ink/75"
-            href={item.href}
-            key={item.href}
-          >
-            {item.label}
-          </Link>
-        ))}
+        <PortalNavLinks items={visibleItems} />
       </nav>
     </header>
   );
