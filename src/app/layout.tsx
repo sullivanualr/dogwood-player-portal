@@ -17,7 +17,11 @@ const tiller = localFont({
 
 export const metadata: Metadata = {
   title: "Dogwood Player Portal",
-  description: "Player development portal for Dogwood Golf & Social"
+  description: "Player development portal for Dogwood Golf & Social",
+  icons: {
+    icon: "/brand/logos/Dogwood-Monogram-Green.svg",
+    shortcut: "/brand/logos/Dogwood-Monogram-Green.svg"
+  }
 };
 
 export default function RootLayout({

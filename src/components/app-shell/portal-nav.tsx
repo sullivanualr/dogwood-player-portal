@@ -33,14 +33,14 @@ export function PortalNav({ roles }: { roles: AppRole[] }) {
           className="flex items-center gap-3 font-semibold text-dogwood-ink lg:text-white"
           href={homeHref}
         >
-          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-md border border-dogwood-green/20 bg-dogwood-green p-1.5 shadow-sm lg:border-white/15">
+          <span className="grid h-12 w-36 shrink-0 place-items-center rounded-md border border-dogwood-green/20 bg-dogwood-green p-2 shadow-sm lg:border-white/15">
             <Image
               alt="Dogwood Golf & Social logo"
               className="h-full w-full object-contain"
               height={48}
               priority
-              src="/brand/logos/Dogwood-Monogram-Cream.svg"
-              width={48}
+              src="/brand/logos/Dogwood-Full-Cream.svg"
+              width={144}
             />
           </span>
           <span className="leading-tight">
