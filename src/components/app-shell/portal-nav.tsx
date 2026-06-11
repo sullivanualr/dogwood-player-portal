@@ -32,7 +32,7 @@ export function PortalNav({ roles }: { roles: AppRole[] }) {
     <header className="border-b border-dogwood-green/10 bg-white/90 backdrop-blur lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-72 lg:flex-col lg:border-b-0 lg:border-r-0 lg:bg-dogwood-green lg:text-white lg:shadow-[8px_0_30px_rgba(24,35,29,0.16)]">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 lg:mx-0 lg:h-full lg:max-w-none lg:flex-col lg:items-stretch lg:justify-start lg:px-6 lg:py-7">
         <Link
-          className="flex items-center gap-3 font-semibold text-dogwood-ink lg:grid lg:gap-2 lg:text-white"
+          className="flex items-center gap-3 font-semibold text-dogwood-ink lg:block lg:text-white"
           href={homeHref}
         >
           <span className="grid h-12 w-36 shrink-0 place-items-center bg-transparent p-0">
@@ -44,7 +44,7 @@ export function PortalNav({ roles }: { roles: AppRole[] }) {
               width={144}
             />
           </span>
-          <span className="text-xs font-medium uppercase tracking-wide text-dogwood-ink/60 lg:text-white/55">
+          <span className="block text-xs font-medium uppercase tracking-wide text-dogwood-ink/60 lg:mt-3 lg:text-white/55">
             Player Portal
           </span>
         </Link>
