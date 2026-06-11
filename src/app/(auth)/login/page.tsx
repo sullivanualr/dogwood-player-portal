@@ -20,14 +20,14 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
     <main className="grid min-h-screen bg-dogwood-linen p-4 lg:grid-cols-[1fr_28rem] lg:p-6">
       <section className="hidden rounded-lg bg-dogwood-green p-8 text-white shadow-sm lg:flex lg:flex-col lg:justify-between">
         <div>
-          <div className="grid h-20 w-20 place-items-center rounded-md border border-white/15 bg-white/5 p-2">
+          <div className="grid h-20 w-48 place-items-center rounded-md border border-white/15 bg-white/5 p-3">
             <Image
               alt="Dogwood Golf & Social logo"
               className="h-full w-full object-contain"
               height={80}
               priority
-              src="/brand/Logos/Dog-Cream.png"
-              width={80}
+              src="/brand/logos/Dogwood-Full-Cream.svg"
+              width={160}
             />
           </div>
           <p className="mt-8 text-sm font-semibold uppercase tracking-wide text-white/65">
@@ -46,14 +46,14 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       <section className="flex items-center justify-center px-2 py-8 lg:px-8">
         <div className="w-full max-w-md rounded-lg border border-dogwood-green/15 bg-white/95 p-6 shadow-sm sm:p-8">
           <div className="mb-8 flex items-center gap-3">
-            <div className="grid h-14 w-14 place-items-center rounded-md border border-dogwood-green/15 bg-dogwood-green p-1.5">
+            <div className="grid h-14 w-36 place-items-center rounded-md border border-dogwood-green/15 bg-dogwood-cream p-2">
               <Image
                 alt="Dogwood Golf & Social logo"
                 className="h-full w-full object-contain"
                 height={56}
                 priority
-                src="/brand/Logos/Dog-Cream.png"
-                width={56}
+                src="/brand/logos/Dogwood-Full-Green.svg"
+                width={144}
               />
             </div>
             <div>

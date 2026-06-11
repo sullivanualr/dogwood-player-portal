@@ -5,14 +5,14 @@ export default function HomePage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-dogwood-linen p-6">
       <div className="w-full max-w-2xl rounded-lg border border-dogwood-green/15 bg-white/90 p-8 shadow-sm">
-        <div className="grid h-16 w-16 place-items-center rounded-md border border-dogwood-green/15 bg-dogwood-green p-2">
+        <div className="grid h-16 w-44 place-items-center rounded-md border border-dogwood-green/15 bg-dogwood-cream p-2">
           <Image
             alt="Dogwood Golf & Social logo"
             className="h-full w-full object-contain"
             height={64}
             priority
-            src="/brand/Logos/Dog-Cream.png"
-            width={64}
+            src="/brand/logos/Dogwood-Full-Green.svg"
+            width={160}
           />
         </div>
         <p className="mt-8 text-sm font-semibold uppercase tracking-wide text-dogwood-leaf">

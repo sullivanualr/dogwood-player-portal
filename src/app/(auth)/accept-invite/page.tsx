@@ -11,14 +11,14 @@ export default async function AcceptInvitePage() {
     <main className="flex min-h-screen items-center justify-center bg-dogwood-linen p-6">
       <section className="w-full max-w-md rounded-lg border border-dogwood-green/15 bg-white/95 p-6 shadow-sm sm:p-8">
         <div className="mb-8 flex items-center gap-3">
-          <div className="grid h-14 w-14 place-items-center rounded-md border border-dogwood-green/15 bg-dogwood-green p-1.5">
+          <div className="grid h-14 w-36 place-items-center rounded-md border border-dogwood-green/15 bg-dogwood-cream p-2">
             <Image
               alt="Dogwood Golf & Social logo"
               className="h-full w-full object-contain"
               height={56}
               priority
-              src="/brand/Logos/Dog-Cream.png"
-              width={56}
+              src="/brand/logos/Dogwood-Full-Green.svg"
+              width={144}
             />
           </div>
           <div>

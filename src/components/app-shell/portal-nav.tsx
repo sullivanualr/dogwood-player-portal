@@ -39,7 +39,7 @@ export function PortalNav({ roles }: { roles: AppRole[] }) {
               className="h-full w-full object-contain"
               height={48}
               priority
-              src="/brand/Logos/Dog-Cream.png"
+              src="/brand/logos/Dogwood-Monogram-Cream.svg"
               width={48}
             />
           </span>
